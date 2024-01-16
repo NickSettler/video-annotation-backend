@@ -24,7 +24,7 @@ jobs:
         with:
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: nicksettler/iis-backend:${{ github.event.release.tag_name }}
+          tags: nicksettler/itt-backend:${{ github.event.release.tag_name }}
           target: backend
 
   build_database:
@@ -45,5 +45,5 @@ jobs:
         with:
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: nicksettler/iis-database:${{ github.event.release.tag_name }}
+          tags: nicksettler/itt-database:${{ github.event.release.tag_name }}
           target: database

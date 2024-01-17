@@ -20,8 +20,8 @@ COPY . .
 
 RUN yarn build
 
-RUN yarn run sentry-cli sourcemaps inject --org video-annotator --project video-annotator-backend -r $VERSION ./build && \
-    yarn run sentry-cli sourcemaps upload --org video-annotator --project video-annotator-backend -r $VERSION ./build
+RUN yarn run sentry-cli sourcemaps inject --org video-annotator --project video-annotator-backend -r $VERSION ./dist && \
+    yarn run sentry-cli sourcemaps upload --org video-annotator --project video-annotator-backend -r $VERSION ./dist
 
 EXPOSE 3000
 

@@ -7,7 +7,7 @@ import { ClassSerializerInterceptor } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as Sentry from '@sentry/node';
 import { ProfilingIntegration } from '@sentry/profiling-node';
-import pkg from '../package.json';
+import * as pkg from '../package.json';
 
 async function bootstrap() {
   config();

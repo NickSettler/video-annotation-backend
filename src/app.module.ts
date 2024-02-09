@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { WorkspaceModule } from './workspace/workspace.module';
+import { VideoModule } from './video/video.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { WorkspaceModule } from './workspace/workspace.module';
     UsersModule,
     AuthModule,
     WorkspaceModule,
+    VideoModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -11,10 +11,10 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { Request } from 'express';
-import { WorkspacesService } from './workspaces.service';
+import { WorkspaceService } from './workspace.service';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { ValidationPipe } from '../common/pipes/validation.pipe';
-import { CreateWorkspaceDTO } from './workspaces.dto';
+import { CreateWorkspaceDTO } from './workspace.dto';
 import { E_USER_ENTITY_KEYS, User } from '../db/entities/user.entity';
 import {
   E_WORKSPACE_ENTITY_KEYS,
@@ -25,10 +25,10 @@ import { E_ACTION } from '../casl/actions';
 import { filter } from 'lodash';
 
 @Controller('workspaces')
-export class WorkspacesController {
+export class WorkspaceController {
   constructor(
     private readonly caslAbilityFactory: CaslAbilityFactory,
-    private readonly workspacesService: WorkspacesService,
+    private readonly workspacesService: WorkspaceService,
   ) {}
 
   @Get()

@@ -5,10 +5,10 @@ import {
   Workspace,
 } from '../db/entities/workspace.entity';
 import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
-import { CreateWorkspaceDTO } from './workspaces.dto';
+import { CreateWorkspaceDTO } from './workspace.dto';
 
 @Injectable()
-export class WorkspacesService {
+export class WorkspaceService {
   constructor(
     @InjectRepository(Workspace)
     private readonly workspaceRepository: Repository<Workspace>,

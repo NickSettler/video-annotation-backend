@@ -9,6 +9,9 @@ export class CreateWorkspaceDTO {
 
   @IsEmpty()
   [E_WORKSPACE_ENTITY_KEYS.CREATED_BY]: string;
+
+  @IsEmpty()
+  [E_WORKSPACE_ENTITY_KEYS.CREATED_AT]: string;
 }
 
 export class UpdateWorkspaceDTO extends PartialType(CreateWorkspaceDTO) {}

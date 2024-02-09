@@ -3,6 +3,7 @@ export enum E_DB_TABLES {
   USER_ROLES = 'user_roles',
   ROLES = 'roles',
   WORKSPACES = 'workspaces',
+  VIDEO = 'video',
 }
 
 export enum E_CUSTOM_ERROR_CODES {}

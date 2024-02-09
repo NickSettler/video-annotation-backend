@@ -4,7 +4,7 @@ const defaultRefreshTokenExpiresIn = '30d';
 export const jwtConstants = {
   tokenSecret: process.env.JWT_ACCESS_SECRET_KEY || 'secret',
   tokenExpiresIn: process.env.JWT_ACCESS_EXPIRES_IN || defaultTokenExpiresIn,
-  refreshSecret: process.env.JWT_REFRESH_SECRET_KEY,
+  refreshSecret: process.env.JWT_REFRESH_SECRET_KEY || 'secret',
   refreshExpiresIn:
     process.env.JWT_REFRESH_EXPIRES_IN || defaultRefreshTokenExpiresIn,
 };

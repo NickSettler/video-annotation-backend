@@ -10,9 +10,13 @@ export const moveFile = async (
   newPath: string,
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
-    fs.rename(oldPath, newPath, (err) => {
-      if (err) reject(err);
+    try {
+      fs.copyFileSync(oldPath, newPath);
+      fs.unlinkSync(oldPath);
+
       resolve();
-    });
+    } catch (error) {
+      reject(error);
+    }
   });
 };

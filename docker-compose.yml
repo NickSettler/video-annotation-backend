@@ -14,6 +14,7 @@ services:
       - postgres
     volumes:
       - ./src:/app/src
+      - ./uploads:/uploads
     command: yarn start:dev
 
   postgres:

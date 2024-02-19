@@ -4,9 +4,15 @@ import { VideoController } from './video.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CaslModule } from '../casl/casl.module';
 import { Video } from '../db/entities/video.entity';
+import { Poster } from '../db/entities/poster.entity';
+import { PosterModule } from '../poster/poster.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Video]), CaslModule],
+  imports: [
+    TypeOrmModule.forFeature([Video, Poster]),
+    PosterModule,
+    CaslModule,
+  ],
   providers: [VideoService],
   controllers: [VideoController],
 })

@@ -15,10 +15,11 @@ import {
   E_WORKSPACE_ENTITY_KEYS,
   Workspace,
 } from '../db/entities/workspace.entity';
-import { Video } from '../db/entities/video.entity';
+import { E_VIDEO_ENTITY_KEYS, Video } from '../db/entities/video.entity';
+import { E_POSTER_ENTITY_KEYS, Poster } from '../db/entities/poster.entity';
 
 export type TSubjects =
-  | InferSubjects<typeof User | typeof Video | typeof Workspace>
+  | InferSubjects<typeof Poster | typeof User | typeof Video | typeof Workspace>
   | 'all';
 
 export type TAbility = MongoAbility<
@@ -46,6 +47,17 @@ export class CaslAbilityFactory {
 
     can([E_ACTION.READ, E_ACTION.UPDATE, E_ACTION.DELETE], Video, {
       [`${[E_WORKSPACE_ENTITY_KEYS.CREATED_BY]}.${[E_USER_ENTITY_KEYS.ID]}`]:
+        user[E_USER_ENTITY_KEYS.ID],
+    });
+
+    // Poster
+    can([E_ACTION.READ, E_ACTION.UPDATE, E_ACTION.DELETE], Poster, {
+      [`${[E_POSTER_ENTITY_KEYS.VIDEO]}.${[E_VIDEO_ENTITY_KEYS.CREATED_BY]}`]:
+        user[E_USER_ENTITY_KEYS.ID],
+    });
+
+    can([E_ACTION.READ, E_ACTION.UPDATE, E_ACTION.DELETE], Poster, {
+      [`${[E_POSTER_ENTITY_KEYS.VIDEO]}.${[E_VIDEO_ENTITY_KEYS.CREATED_BY]}.${E_USER_ENTITY_KEYS.ID}`]:
         user[E_USER_ENTITY_KEYS.ID],
     });
   }

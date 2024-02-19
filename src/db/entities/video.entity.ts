@@ -4,15 +4,22 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { E_DB_TABLES } from '../constants';
 import { E_WORKSPACE_ENTITY_KEYS } from './workspace.entity';
 import { User } from './user.entity';
+import { E_POSTER_ENTITY_KEYS, Poster } from './poster.entity';
+import { Exclude } from 'class-transformer';
 
 export enum E_VIDEO_ENTITY_KEYS {
   ID = 'id',
+  NAME = 'name',
   FILENAME = 'filename',
+  POSTER_ID = 'poster_id',
+  POSTER = 'poster',
   WIDTH = 'width',
   HEIGHT = 'height',
   FPS = 'fps',
@@ -20,40 +27,63 @@ export enum E_VIDEO_ENTITY_KEYS {
   CODEC = 'codec',
   ASPECT_X = 'aspect_x',
   ASPECT_Y = 'aspect_y',
+  POSTERS = 'posters',
   CREATED_BY = 'created_by',
   CREATED_AT = 'created_at',
 }
 
 @Entity({
-  name: E_DB_TABLES.VIDEO,
+  name: E_DB_TABLES.VIDEOS,
 })
 export class Video {
   @PrimaryGeneratedColumn('uuid')
   [E_VIDEO_ENTITY_KEYS.ID]: string;
 
   @Column()
-  [E_VIDEO_ENTITY_KEYS.FILENAME]: string;
-
-  @Column({ type: 'int' })
-  [E_VIDEO_ENTITY_KEYS.WIDTH]: number;
-
-  @Column({ type: 'int' })
-  [E_VIDEO_ENTITY_KEYS.HEIGHT]: number;
-
-  @Column({ type: 'float' })
-  [E_VIDEO_ENTITY_KEYS.FPS]: number;
-
-  @Column({ type: 'int' })
-  [E_VIDEO_ENTITY_KEYS.BITRATE]: number;
+  [E_VIDEO_ENTITY_KEYS.NAME]: string;
 
   @Column()
-  [E_VIDEO_ENTITY_KEYS.CODEC]: string;
+  @Exclude({
+    toPlainOnly: true,
+  })
+  [E_VIDEO_ENTITY_KEYS.FILENAME]: string;
 
-  @Column({ type: 'int' })
-  [E_VIDEO_ENTITY_KEYS.ASPECT_X]: number;
+  @Column({
+    nullable: true,
+  })
+  [E_VIDEO_ENTITY_KEYS.POSTER_ID]: string | null;
 
-  @Column({ type: 'int' })
-  [E_VIDEO_ENTITY_KEYS.ASPECT_Y]: number;
+  @OneToOne(() => Poster, (poster) => poster[E_POSTER_ENTITY_KEYS.VIDEO], {
+    nullable: true,
+  })
+  @JoinColumn({ name: E_VIDEO_ENTITY_KEYS.POSTER_ID })
+  [E_VIDEO_ENTITY_KEYS.POSTER]: Poster | null;
+
+  @Column({ type: 'int', nullable: true })
+  [E_VIDEO_ENTITY_KEYS.WIDTH]: number | null;
+
+  @Column({ type: 'int', nullable: true })
+  [E_VIDEO_ENTITY_KEYS.HEIGHT]: number | null;
+
+  @Column({ type: 'float', nullable: true })
+  [E_VIDEO_ENTITY_KEYS.FPS]: number | null;
+
+  @Column({ type: 'int', nullable: true })
+  [E_VIDEO_ENTITY_KEYS.BITRATE]: number | null;
+
+  @Column({ nullable: true })
+  [E_VIDEO_ENTITY_KEYS.CODEC]: string | null;
+
+  @Column({ type: 'int', nullable: true })
+  [E_VIDEO_ENTITY_KEYS.ASPECT_X]: number | null;
+
+  @Column({ type: 'int', nullable: true })
+  [E_VIDEO_ENTITY_KEYS.ASPECT_Y]: number | null;
+
+  @OneToMany(() => Poster, (poster) => poster[E_POSTER_ENTITY_KEYS.VIDEO], {
+    eager: true,
+  })
+  [E_VIDEO_ENTITY_KEYS.POSTERS]: Array<Poster>;
 
   @ManyToOne(() => User, {
     eager: true,

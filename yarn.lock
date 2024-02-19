@@ -926,10 +926,10 @@
     "@sentry/types" "7.101.0"
     "@sentry/utils" "7.101.0"
 
-"@sentry/profiling-node@^7.101.0":
-  version "7.101.0"
-  resolved "https://registry.yarnpkg.com/@sentry/profiling-node/-/profiling-node-7.101.0.tgz#dee36743923ba9c5250053dc406cb1018d105eaa"
-  integrity sha512-6LfHHdST0wtM0THbQtLMemYKfyOi6OZV0xXTAnEdrZ+fmtR5Hb/1QkBGhVMpjhfoVuIP+1g7NS0OiZHyTuxBPg==
+"@sentry/profiling-node@^7.101.1":
+  version "7.101.1"
+  resolved "https://registry.yarnpkg.com/@sentry/profiling-node/-/profiling-node-7.101.1.tgz#2ebbdd3c48c2a66e423a1671582b7d9f51c9d8fd"
+  integrity sha512-buM+HZZW7jf3mqJgByVGPwytvmHcbjxRT8CkjO5UDO7stRTsq3iT/hK7qt0bQEDQwhmKeVCvfqryg2nKkPq3RA==
   dependencies:
     detect-libc "^2.0.2"
     node-abi "^3.52.0"
@@ -1186,10 +1186,10 @@
   dependencies:
     "@types/express" "*"
 
-"@types/node@*", "@types/node@^20.11.16":
-  version "20.11.17"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.11.17.tgz#cdd642d0e62ef3a861f88ddbc2b61e32578a9292"
-  integrity sha512-QmgQZGWu1Yw9TDyAP9ZzpFJKynYNeOvwMJmaxABfieQoVoiVOS6MN1WSpqpRcbeA5+RW82kraAVxCCJg+780Qw==
+"@types/node@*", "@types/node@^20.11.19":
+  version "20.11.19"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.11.19.tgz#b466de054e9cb5b3831bee38938de64ac7f81195"
+  integrity sha512-7xMnVEcZFu0DikYjWOlRq7NTPETrm7teqUT2WkQjrTIkEgUyyGdWsj/Zg8bEJt5TNklzbPD1X3fqfsHw3SpapQ==
   dependencies:
     undici-types "~5.26.4"
 

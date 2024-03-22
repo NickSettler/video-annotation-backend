@@ -29,7 +29,7 @@
     "@nestjs/platform-express": "^10.3.4",
     "@nestjs/typeorm": "^10.0.2",
     "@sentry/node": "^7.108.0",
-    "@sentry/profiling-node": "^7.107.0",
+    "@sentry/profiling-node": "^7.108.0",
     "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",

@@ -15,5 +15,6 @@ import { PosterModule } from '../poster/poster.module';
   ],
   providers: [VideoService],
   controllers: [VideoController],
+  exports: [VideoService],
 })
 export class VideoModule {}

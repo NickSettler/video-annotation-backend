@@ -17,8 +17,6 @@ export class VideoService {
   constructor(
     @InjectRepository(Video)
     private readonly videoRepository: Repository<Video>,
-    @InjectRepository(Poster)
-    private readonly posterRepository: Repository<Poster>,
   ) {}
 
   public async findAll(
@@ -29,7 +27,7 @@ export class VideoService {
     });
   }
 
-  public async findOne(options: FindOneOptions<Video>): Promise<Video> {
+  public async findOne(options: FindOneOptions<Video>): Promise<Video | null> {
     return this.videoRepository.findOne({
       ...options,
     });
@@ -122,8 +120,6 @@ export class VideoService {
       });
     } catch (e) {
       await queryRunner.rollbackTransaction();
-
-      console.log(e);
 
       throw new InternalServerErrorException('Could not create video');
     } finally {

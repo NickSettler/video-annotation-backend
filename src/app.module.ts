@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { WorkspaceModule } from './workspace/workspace.module';
 import { VideoModule } from './video/video.module';
 import { PosterModule } from './poster/poster.module';
+import { ProjectModule } from './project/project.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { PosterModule } from './poster/poster.module';
     WorkspaceModule,
     VideoModule,
     PosterModule,
+    ProjectModule,
   ],
   controllers: [AppController],
   providers: [AppService],

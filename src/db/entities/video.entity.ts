@@ -9,10 +9,10 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { E_DB_TABLES } from '../constants';
-import { E_WORKSPACE_ENTITY_KEYS } from './workspace.entity';
 import { User } from './user.entity';
 import { E_POSTER_ENTITY_KEYS, Poster } from './poster.entity';
 import { Exclude } from 'class-transformer';
+import { E_PROJECT_ENTITY_KEYS, Project } from './project.entity';
 
 export enum E_VIDEO_ENTITY_KEYS {
   ID = 'id',
@@ -28,6 +28,7 @@ export enum E_VIDEO_ENTITY_KEYS {
   ASPECT_X = 'aspect_x',
   ASPECT_Y = 'aspect_y',
   POSTERS = 'posters',
+  PROJECTS = 'projects',
   CREATED_BY = 'created_by',
   CREATED_AT = 'created_at',
 }
@@ -85,10 +86,13 @@ export class Video {
   })
   [E_VIDEO_ENTITY_KEYS.POSTERS]: Array<Poster>;
 
+  @OneToMany(() => Project, (project) => project[E_PROJECT_ENTITY_KEYS.VIDEO])
+  [E_VIDEO_ENTITY_KEYS.PROJECTS]: Array<Project>;
+
   @ManyToOne(() => User, {
     eager: true,
   })
-  @JoinColumn({ name: E_WORKSPACE_ENTITY_KEYS.CREATED_BY })
+  @JoinColumn({ name: E_VIDEO_ENTITY_KEYS.CREATED_BY })
   [E_VIDEO_ENTITY_KEYS.CREATED_BY]: User;
 
   @CreateDateColumn()

@@ -5,6 +5,7 @@ export enum E_DB_TABLES {
   WORKSPACES = 'workspaces',
   VIDEOS = 'videos',
   POSTERS = 'posters',
+  PROJECTS = 'projects',
 }
 
 export enum E_CUSTOM_ERROR_CODES {}

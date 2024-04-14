@@ -29,7 +29,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { User } from '../db/entities/user.entity';
 import { ValidationPipe } from '../common/pipes/validation.pipe';
 import { CreateVideoDTO } from './video.dto';
-import { createReadStream } from 'fs';
+import { createReadStream, stat } from 'fs';
 import { lookup } from 'mime-types';
 import { E_POSTER_ENTITY_KEYS, Poster } from '../db/entities/poster.entity';
 import { plainToInstance } from 'class-transformer';
@@ -85,9 +85,9 @@ export class VideoController {
   @UseGuards(JwtAuthGuard)
   public async getVideoFile(
     @Req() request: Request,
-    @Res({ passthrough: true }) response: Response,
+    @Res({ passthrough: false }) response: Response,
     @Param('id') id: string,
-  ): Promise<StreamableFile> {
+  ): Promise<void> {
     const rules = this.caslAbilityFactory.createForUser(request.user as User);
 
     if (!rules.can(E_ACTION.READ, Video))
@@ -106,17 +106,40 @@ export class VideoController {
     const ext = path.split('.').pop();
     const filename = `${video[E_VIDEO_ENTITY_KEYS.NAME]}.${video[E_VIDEO_ENTITY_KEYS.ID]}.${ext}`;
     const mimetype = lookup(path) || 'video/mp4';
-    const file = createReadStream(video[E_VIDEO_ENTITY_KEYS.FILENAME]);
 
-    response.setHeader('Content-Type', mimetype);
-    response.setHeader(
-      'Content-Disposition',
-      `attachment; filename=${filename}`,
-    );
+    stat(video[E_VIDEO_ENTITY_KEYS.FILENAME], (_, data) => {
+      if (request.headers['range']) {
+        const range = request.headers['range'];
+        const array = range.replace('bytes=', '').split('-');
+        const start = parseInt(array[0], 10);
+        const end = array[1] ? parseInt(array[1], 10) : data.size - 1;
+        const chunk = 1024 * 1000;
+        response.writeHead(206, {
+          'Accept-Ranges': 'bytes',
+          'Content-Range': 'bytes ' + start + '-' + end + '/' + data.size,
+          'Content-Length': chunk,
+          'Content-Type': mimetype,
+          'Cache-Control': 'no-cache',
+          'Content-Disposition': `attachment; filename=${filename}`,
+        });
 
-    return new StreamableFile(file)
-      .setErrorHandler(() => {})
-      .setErrorLogger(() => {});
+        const readable = createReadStream(video[E_VIDEO_ENTITY_KEYS.FILENAME], {
+          start,
+          end,
+        });
+
+        if (readable == null) {
+          return response.end();
+        } else {
+          readable.on('open', () => {
+            readable.pipe(response);
+          });
+          readable.on('error', (err) => {
+            response.end(err);
+          });
+        }
+      }
+    });
   }
 
   @Get(':id/posters')

@@ -50,8 +50,11 @@ export class VideoController {
 
     if (!rules.can(E_ACTION.READ, Video)) return [];
 
-    return filter(await this.videoService.findAll(), (workspace) =>
-      rules.can(E_ACTION.READ, workspace),
+    return filter(
+      await this.videoService.findAll({
+        relations: [`${E_VIDEO_ENTITY_KEYS.PROJECTS}`],
+      }),
+      (workspace) => rules.can(E_ACTION.READ, workspace),
     );
   }
 
@@ -111,7 +114,9 @@ export class VideoController {
       `attachment; filename=${filename}`,
     );
 
-    return new StreamableFile(file);
+    return new StreamableFile(file)
+      .setErrorHandler(() => {})
+      .setErrorLogger(() => {});
   }
 
   @Get(':id/posters')

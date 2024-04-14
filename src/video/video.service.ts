@@ -12,6 +12,8 @@ import { CreateVideoDTO } from './video.dto';
 import { DeepPartial } from 'typeorm/common/DeepPartial';
 import { E_POSTER_ENTITY_KEYS, Poster } from '../db/entities/poster.entity';
 
+const uploadsFolder = process.env.UPLOADS_LOCATION || '/uploads';
+
 @Injectable()
 export class VideoService {
   constructor(
@@ -59,7 +61,7 @@ export class VideoService {
 
       const databaseVideo = await queryRunner.manager.save(video);
 
-      const newFolder = `/uploads/${user[E_USER_ENTITY_KEYS.ID]}/${video[E_VIDEO_ENTITY_KEYS.ID]}`;
+      const newFolder = `${uploadsFolder}/${user[E_USER_ENTITY_KEYS.ID]}/${video[E_VIDEO_ENTITY_KEYS.ID]}`;
       const newPath = `${newFolder}/video.mp4`;
 
       await createDirectory(newFolder);

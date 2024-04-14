@@ -23,6 +23,14 @@ async function bootstrap() {
     origin: '*',
   });
 
+  app.use(
+    helmet({
+      crossOriginResourcePolicy: {
+        policy: 'cross-origin',
+      },
+    }),
+  );
+
   const expressApp = app.getHttpAdapter().getInstance();
 
   Sentry.init({

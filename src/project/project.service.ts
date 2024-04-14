@@ -3,7 +3,11 @@ import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
 import { E_PROJECT_ENTITY_KEYS, Project } from '../db/entities/project.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { E_USER_ENTITY_KEYS, User } from '../db/entities/user.entity';
-import { CreateProjectDTO, UpdateProjectDTO } from './project.dto';
+import {
+  CreateProjectDTO,
+  UpdateProjectAnnotationsDTO,
+  UpdateProjectDTO,
+} from './project.dto';
 import { assign } from 'lodash';
 
 @Injectable()
@@ -45,7 +49,7 @@ export class ProjectService {
 
   public async update(
     id: string,
-    updateDTO: UpdateProjectDTO,
+    updateDTO: UpdateProjectAnnotationsDTO | UpdateProjectDTO,
   ): Promise<Project> {
     const project = await this.projectsRepository.findOne({
       where: { [E_PROJECT_ENTITY_KEYS.ID]: id },

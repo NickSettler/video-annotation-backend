@@ -15,6 +15,7 @@ export enum E_PROJECT_ENTITY_KEYS {
   NAME = 'name',
   VIDEO_ID = 'video_id',
   VIDEO = 'video',
+  ANNOTATIONS = 'annotations',
   CREATED_BY = 'created_by',
   CREATED_AT = 'created_at',
 }
@@ -43,6 +44,12 @@ export class Project {
     name: E_PROJECT_ENTITY_KEYS.VIDEO_ID,
   })
   [E_PROJECT_ENTITY_KEYS.VIDEO]: Video;
+
+  @Column({
+    type: 'jsonb',
+    nullable: true,
+  })
+  [E_PROJECT_ENTITY_KEYS.ANNOTATIONS]: Array<any>;
 
   @ManyToOne(() => User, {
     eager: true,

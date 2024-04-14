@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { IsArray, IsNotEmpty, IsString, IsUUID } from 'class-validator';
 import { E_PROJECT_ENTITY_KEYS, Project } from '../db/entities/project.entity';
 import { PartialType } from '@nestjs/mapped-types';
 
@@ -13,3 +13,9 @@ export class CreateProjectDTO {
 }
 
 export class UpdateProjectDTO extends PartialType(CreateProjectDTO) {}
+
+export class UpdateProjectAnnotationsDTO {
+  @IsNotEmpty()
+  @IsArray()
+  [E_PROJECT_ENTITY_KEYS.ANNOTATIONS]: Project[E_PROJECT_ENTITY_KEYS.ANNOTATIONS];
+}

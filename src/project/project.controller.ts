@@ -21,7 +21,11 @@ import { ProjectService } from './project.service';
 import { CaslAbilityFactory } from '../casl/casl-ability.factory';
 import { E_PROJECT_ENTITY_KEYS, Project } from '../db/entities/project.entity';
 import { ValidationPipe } from '../common/pipes/validation.pipe';
-import { CreateProjectDTO, UpdateProjectDTO } from './project.dto';
+import {
+  CreateProjectDTO,
+  UpdateProjectAnnotationsDTO,
+  UpdateProjectDTO,
+} from './project.dto';
 import { VideoService } from '../video/video.service';
 import { E_VIDEO_ENTITY_KEYS } from '../db/entities/video.entity';
 
@@ -151,7 +155,47 @@ export class ProjectController {
     });
 
     if (!rules.can(E_ACTION.READ, updatedProject))
-      throw new ForbiddenException('You are not allowed to read projects');
+      throw new ForbiddenException('You are not allowed to read this project');
+
+    return updatedProject;
+  }
+
+  @Post(':id/annotations')
+  @UseGuards(JwtAuthGuard)
+  @UsePipes(ValidationPipe)
+  public async updateProjectAnnotations(
+    @Req() request: Request,
+    @Param('id') id: string,
+    @Body() updateDTO: UpdateProjectAnnotationsDTO,
+  ): Promise<Project> {
+    const rules = this.caslAbilityFactory.createForUser(request.user as User);
+
+    if (!rules.can(E_ACTION.UPDATE, Project))
+      throw new ForbiddenException('You are not allowed to update projects');
+
+    const project = await this.projectsService.findOne({
+      where: {
+        [E_PROJECT_ENTITY_KEYS.ID]: id,
+      },
+    });
+
+    if (!project) throw new NotFoundException('Project not found');
+
+    if (!rules.can(E_ACTION.UPDATE, project))
+      throw new ForbiddenException(
+        'You are not allowed to update this project',
+      );
+
+    await this.projectsService.update(id, updateDTO);
+
+    const updatedProject = await this.projectsService.findOne({
+      where: {
+        [E_PROJECT_ENTITY_KEYS.ID]: id,
+      },
+    });
+
+    if (!rules.can(E_ACTION.READ, updatedProject))
+      throw new ForbiddenException('You are not allowed to read this project');
 
     return updatedProject;
   }

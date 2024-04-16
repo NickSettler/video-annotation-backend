@@ -28,7 +28,7 @@
     "@nestjs/passport": "^10.0.2",
     "@nestjs/platform-express": "^10.3.7",
     "@nestjs/typeorm": "^10.0.2",
-    "@sentry/node": "^7.110.0",
+    "@sentry/node": "^7.110.1",
     "@sentry/profiling-node": "^7.110.0",
     "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
